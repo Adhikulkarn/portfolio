@@ -146,6 +146,12 @@ SPECTACULAR_SETTINGS = {
     'TITLE': 'Portfolio CMS API',
     'DESCRIPTION': 'Backend API for Portfolio CMS',
     'VERSION': '1.0.0',
+
+    'SERVE_INCLUDE_SCHEMA': False,
+
+    'SWAGGER_UI_SETTINGS': {
+        'persistAuthorization': True,
+    },
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
