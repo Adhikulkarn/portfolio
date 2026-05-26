@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from cloudinary.models import CloudinaryField
 
 class Project(models.Model):
     STATUS_CHOICES = [
@@ -30,7 +31,7 @@ class Project(models.Model):
         null=True
     )
 
-    cover_image = models.URLField()
+    cover_image = CloudinaryField('image')
 
     featured = models.BooleanField(default=False)
 
