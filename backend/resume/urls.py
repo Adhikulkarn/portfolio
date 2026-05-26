@@ -1,8 +1,8 @@
 from rest_framework.routers import DefaultRouter
 
-from .views import ProjectViewSet
+from .views import ResumeViewSet
 
 router = DefaultRouter()
-router.register("", ProjectViewSet, basename="projects")
+router.register("", ResumeViewSet, basename="resume")
 
 urlpatterns = router.urls

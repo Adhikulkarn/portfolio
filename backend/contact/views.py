@@ -1,3 +1,24 @@
-from django.shortcuts import render
+from rest_framework import status, viewsets
+from rest_framework.permissions import AllowAny, IsAdminUser
+from rest_framework.response import Response
 
-# Create your views here.
+from .models import ContactMessage
+from .serializers import ContactMessageSerializer
+
+
+class ContactMessageViewSet(viewsets.ModelViewSet):
+    queryset = ContactMessage.objects.all()
+    serializer_class = ContactMessageSerializer
+    http_method_names = ["get", "post", "delete", "head", "options"]
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [AllowAny()]
+        return [IsAdminUser()]
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
