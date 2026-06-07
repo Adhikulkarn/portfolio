@@ -149,7 +149,7 @@ SPECTACULAR_SETTINGS = {
     "SECURITY": [{"BearerAuth": []}],
 }
 
-CORS_ALLOW_ALL_ORIGINS = env_bool("CORS_ALLOW_ALL_ORIGINS", default=False)
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
