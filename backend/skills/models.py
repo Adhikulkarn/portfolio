@@ -9,6 +9,7 @@ class Skill(models.Model):
         ("devops", "DevOps"),
         ("tools", "Tools"),
         ("languages", "Languages"),
+        ("soft_skills", "Soft Skills"),
     ]
 
     name = models.CharField(max_length=100)
