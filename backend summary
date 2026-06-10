@@ -1,0 +1,105 @@
+# Backend Summary - Portfolio CMS
+
+This document provides a detailed overview of the backend architecture, file structure, and API endpoints for the Portfolio CMS.
+
+## 📁 File Structure
+
+The backend is built with **Django** and **Django REST Framework (DRF)**.
+
+```text
+backend/
+├── manage.py              # Django CLI entry point
+├── requirements.txt       # Project dependencies
+├── config/                # Core configuration directory
+│   ├── settings.py        # Main project settings (DB, JWT, Apps)
+│   ├── urls.py            # Root URL routing
+│   ├── permissions.py     # Custom IsAdminOrReadOnly permission
+│   ├── asgi.py            # ASGI entry point for production
+│   └── wsgi.py            # WSGI entry point for production
+├── accounts/              # Authentication & User management
+│   ├── urls.py            # JWT (Login/Refresh) routes
+│   └── ...                # Standard Django app files
+├── projects/              # Portfolio Projects
+│   ├── models.py          # Project model with slug auto-generation
+│   ├── serializers.py     # DRF serializers for Project model
+│   ├── views.py           # ModelViewSet for Project CRUD
+│   └── urls.py            # Router-based URL patterns
+├── blogs/                 # Blog management
+│   ├── models.py          # Blog model (title, content, tags, published status)
+│   ├── serializers.py     # DRF serializers for Blog model
+│   ├── views.py           # Logic to filter published posts for public
+│   └── urls.py            # Router-based URL patterns
+├── experience/            # Professional Experience
+│   ├── models.py          # Experience model (role, organization, duration)
+│   ├── serializers.py     # DRF serializers
+│   └── views.py           # CRUD views
+├── skills/                # Technical Skills
+│   ├── models.py          # Skill model (name, category)
+│   ├── serializers.py     # DRF serializers
+│   └── views.py           # CRUD views
+├── contact/               # Contact Form Submissions
+│   ├── models.py          # ContactMessage model
+│   ├── serializers.py     # DRF serializers
+│   └── views.py           # Permissions: Anyone can POST, Admin can GET/DELETE
+└── resume/                # Resume/CV Management
+    ├── models.py          # Resume model (only one active at a time)
+    ├── serializers.py     # DRF serializers
+    └── views.py           # CRUD + /current/ endpoint for active resume
+```
+
+---
+
+## 🚀 API Routes
+
+All API endpoints are prefixed with `/api/`.
+
+| Endpoint | Method | Purpose | Permission |
+| :--- | :--- | :--- | :--- |
+| `auth/login/` | `POST` | Obtain JWT access/refresh tokens | Allow Any |
+| `auth/refresh/` | `POST` | Refresh expired access token | Allow Any |
+| `projects/` | `GET` | List all projects | Allow Any |
+| `projects/` | `POST` | Create a new project | Admin Only |
+| `projects/{id}/` | `GET` | Retrieve project details | Allow Any |
+| `projects/{id}/` | `PUT/PATCH` | Update a project | Admin Only |
+| `projects/{id}/` | `DELETE` | Delete a project | Admin Only |
+| `blogs/` | `GET` | List blogs (Published only for public) | Allow Any |
+| `blogs/` | `POST` | Create a new blog post | Admin Only |
+| `experience/` | `GET/POST` | List or Create work experiences | IsAdminOrReadOnly |
+| `skills/` | `GET/POST` | List or Create skills | IsAdminOrReadOnly |
+| `contact/` | `POST` | Submit a contact form message | Allow Any |
+| `contact/` | `GET` | View all contact messages | Admin Only |
+| `resume/` | `GET/POST` | List or Upload resumes | IsAdminOrReadOnly |
+| `resume/current/` | `GET` | Retrieve the currently active resume | Allow Any |
+| `schema/` | `GET` | Download OpenAPI schema (YAML/JSON) | Allow Any |
+| `docs/` | `GET` | Interactive Swagger UI documentation | Allow Any |
+
+---
+
+## 📄 File Summaries
+
+### 1. `config/` (Project Core)
+- **`settings.py`**: Configures the database (using `dj_database_url`), JWT authentication via `rest_framework_simplejwt`, and CORS settings. It handles environment variables through `dotenv`.
+- **`urls.py`**: The entry point for all routing. It routes `admin/`, `api/`, and documentation views (`api/docs/`).
+- **`permissions.py`**: Defines `IsAdminOrReadOnly`, a custom permission that allows read-only access to everyone but restricts write operations (POST, PUT, DELETE) to staff users.
+
+### 2. `accounts/`
+- **`urls.py`**: Integrates DRF SimpleJWT views for standard login and token refreshing.
+
+### 3. `projects/`
+- **`models.py`**: Defines the `Project` model. Includes a `save()` override to automatically generate a unique URL-friendly `slug` from the title.
+- **`views.py`**: Uses a `ModelViewSet` to provide standard RESTful actions, protected by `IsAdminOrReadOnly`.
+
+### 4. `blogs/`
+- **`models.py`**: Stores blog posts with metadata. Similar to projects, it handles automatic slug generation.
+- **`views.py`**: Customizes `get_queryset` so that unauthenticated users can only see posts marked as `published`, while staff see all posts.
+
+### 5. `experience/` & `skills/`
+- **`models.py`**: Simple models for storing professional history and technical skills (categorized by type like 'Frontend', 'Backend', etc.).
+- **`views.py`**: Standard CRUD views using `ModelViewSet`.
+
+### 6. `contact/`
+- **`views.py`**: Overrides permissions so that the `create` action is open to `AllowAny`, ensuring users can send messages. The list and delete actions are restricted to `IsAdminUser`.
+
+### 7. `resume/`
+- **`models.py`**: The `Resume` model includes logic in `save()` to ensure that when a new resume is set to `active`, all other resumes are automatically deactivated.
+- **`views.py`**: Includes a custom `@action` called `current` to easily fetch the single active resume for the frontend.
