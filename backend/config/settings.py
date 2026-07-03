@@ -161,6 +161,7 @@ SPECTACULAR_SETTINGS = {
 }
 
 CORS_ALLOW_ALL_ORIGINS = True
+ALLOWED_HOSTS = ["*"]
 CORS_ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
