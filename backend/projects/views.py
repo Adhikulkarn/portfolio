@@ -9,3 +9,5 @@ class ProjectViewSet(viewsets.ModelViewSet):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
     permission_classes = [IsAdminOrReadOnly]
+    lookup_field = "slug"
+    lookup_url_kwarg = "slug"
