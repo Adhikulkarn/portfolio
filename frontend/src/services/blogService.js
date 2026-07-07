@@ -10,4 +10,14 @@ export const blogService = {
       throw error;
     }
   },
+
+  getBlogBySlug: async (slug) => {
+    try {
+      const response = await api.get(`blogs/${slug}/`);
+      return response.data;
+    } catch (error) {
+      console.error(`Failed to fetch blog with slug "${slug}":`, error);
+      throw error;
+    }
+  },
 };

@@ -75,7 +75,7 @@ const EngineeringPhilosophy = () => {
   };
 
   return (
-    <Section id="experience" className="philosophy-section">
+    <Section id="philosophy" className="philosophy-section">
       <Container>
         {/* Editorial Split Layout for Text Content */}
         <motion.div

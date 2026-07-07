@@ -10,4 +10,14 @@ export const projectService = {
       throw error;
     }
   },
+
+  getProjectBySlug: async (slug) => {
+    try {
+      const response = await api.get(`projects/${slug}/`);
+      return response.data;
+    } catch (error) {
+      console.error(`Failed to fetch project with slug "${slug}":`, error);
+      throw error;
+    }
+  },
 };

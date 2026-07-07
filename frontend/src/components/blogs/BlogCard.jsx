@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 
 const BlogCard = ({ blog }) => {
@@ -37,7 +38,7 @@ const BlogCard = ({ blog }) => {
       aria-label={`Blog post: ${blog.title}`}
     >
       {/* Visual Cover Image */}
-      <a href={`/blogs/${blog.slug}`} className="blog-image-link" aria-label={`Read article: ${blog.title}`}>
+      <Link to={`/blogs/${blog.slug}`} className="blog-image-link" aria-label={`Read article: ${blog.title}`}>
         <div className="blog-image-wrapper">
           <img
             src={blog.cover_image}
@@ -47,7 +48,7 @@ const BlogCard = ({ blog }) => {
           />
           <div className="blog-image-overlay" />
         </div>
-      </a>
+      </Link>
 
       {/* Card Content */}
       <div className="blog-card-body">
@@ -58,7 +59,7 @@ const BlogCard = ({ blog }) => {
         </div>
 
         <h3 className="blog-title">
-          <a href={`/blogs/${blog.slug}`}>{blog.title}</a>
+          <Link to={`/blogs/${blog.slug}`}>{blog.title}</Link>
         </h3>
 
         <p className="blog-excerpt">{excerpt}</p>

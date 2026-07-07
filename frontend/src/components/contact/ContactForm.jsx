@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import Button from '../ui/Button';
 import ContactSuccess from './ContactSuccess';
+import ContactLogs from './ContactLogs';
 import { contactService } from '../../services/contactService';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [status, setStatus] = useState('idle'); // 'idle' | 'success' | 'error'
+  const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
+  const [apiPromise, setApiPromise] = useState(null);
 
   const validate = () => {
     const tempErrors = {};
@@ -31,27 +32,37 @@ const ContactForm = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    if (status === 'sending') return;
     if (!validate()) return;
 
-    setIsSubmitting(true);
-    setStatus('idle');
-    try {
-      await contactService.submitContactForm(formData);
-      setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    } catch (err) {
-      console.error('Contact form submission error:', err);
-      setStatus('error');
-    } finally {
-      setIsSubmitting(false);
-    }
+    setStatus('sending');
+
+    // Trigger api post and capture as promise
+    const promise = contactService.submitContactForm(formData)
+      .then((response) => {
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        return response;
+      })
+      .catch((err) => {
+        console.error('Contact form submission error:', err);
+        setStatus('error');
+        throw err;
+      });
+
+    setApiPromise(promise);
   };
+
+  if (status === 'sending' && apiPromise) {
+    return <ContactLogs apiPromise={apiPromise} onComplete={() => setStatus('success')} />;
+  }
 
   if (status === 'success') {
     return <ContactSuccess onReset={() => setStatus('idle')} />;
   }
+
+  const isSubmitting = status === 'sending';
 
   return (
     <form onSubmit={handleSubmit} className="contact-form glass-panel" noValidate>

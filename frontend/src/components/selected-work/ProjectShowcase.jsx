@@ -1,12 +1,23 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import Button from '../ui/Button';
 import ProjectMetadata from './ProjectMetadata';
 import TechPills from './TechPills';
-import StatusBadge from './StatusBadge';
 
 const ProjectShowcase = ({ project, index }) => {
   const isImageLeft = index % 2 === 0;
+  const isExternal = !!project.live_url;
+  const ImageLinkComponent = isExternal ? 'a' : Link;
+  const imageLinkProps = isExternal 
+    ? {
+        href: project.live_url,
+        target: '_blank',
+        rel: 'noopener noreferrer'
+      }
+    : {
+        to: `/projects/${project.slug}`
+      };
 
   const contentVariants = {
     hidden: { opacity: 0, x: isImageLeft ? 40 : -40 },
@@ -36,7 +47,11 @@ const ProjectShowcase = ({ project, index }) => {
         viewport={{ once: true, margin: '-100px' }}
         className="project-showcase-image-container"
       >
-        <a href={`/projects/${project.slug}`} className="project-image-link" aria-label={`View case study for ${project.title}`}>
+        <ImageLinkComponent 
+          {...imageLinkProps}
+          className="project-image-link" 
+          aria-label={`View ${isExternal ? 'live demo' : 'case study'} for ${project.title}`}
+        >
           <div className="project-image-wrapper">
             <img
               src={project.cover_image}
@@ -45,10 +60,12 @@ const ProjectShowcase = ({ project, index }) => {
               loading="lazy"
             />
             <div className="project-image-overlay">
-              <span className="view-case-study-label">View Case Study</span>
+              <span className="view-case-study-label">
+                {isExternal ? 'View Live Demo' : 'View Case Study'}
+              </span>
             </div>
           </div>
-        </a>
+        </ImageLinkComponent>
       </motion.div>
 
       {/* Content Block */}
@@ -61,7 +78,6 @@ const ProjectShowcase = ({ project, index }) => {
       >
         <div className="project-showcase-top">
           <ProjectMetadata project={project} />
-          <StatusBadge status={project.status} />
         </div>
 
         <h3 className="project-showcase-title">{project.title}</h3>
@@ -73,17 +89,18 @@ const ProjectShowcase = ({ project, index }) => {
         </div>
 
         <div className="project-showcase-buttons">
-          <Button variant="primary" href={`/projects/${project.slug}`}>
-            View Case Study
-          </Button>
-          {project.github_url && (
-            <Button variant="secondary" href={project.github_url}>
-              GitHub
+          {project.live_url ? (
+            <Button variant="primary" href={project.live_url} target="_blank" rel="noopener noreferrer">
+              Live Demo
+            </Button>
+          ) : (
+            <Button variant="primary" href={`/projects/${project.slug}`}>
+              View Case Study
             </Button>
           )}
-          {project.live_url && (
-            <Button variant="outline" href={project.live_url}>
-              Live Demo
+          {project.github_url && (
+            <Button variant="secondary" href={project.github_url} target="_blank" rel="noopener noreferrer">
+              GitHub
             </Button>
           )}
         </div>

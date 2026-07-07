@@ -9,15 +9,18 @@ import BlogsSection from '../components/blogs/BlogsSection';
 import TechStackSection from '../components/skills/TechStackSection';
 import ContactSection from '../components/contact/ContactSection';
 
+import SEO from '../components/common/SEO';
+
 const Home = () => {
   return (
     <PageTransition>
+      <SEO />
       <Hero />
       <WhatIBuildSection />
       <SelectedWorkSection />
       <EngineeringPhilosophy />
-      <ExperienceSection />
       <TechStackSection />
+      <ExperienceSection />
       <BlogsSection />
       <ContactSection />
     </PageTransition>

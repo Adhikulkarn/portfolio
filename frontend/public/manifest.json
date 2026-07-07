@@ -1,0 +1,18 @@
+{
+  "name": "Aditya Kulkarni Portfolio",
+  "short_name": "spidy",
+  "description": "Premium software engineering portfolio and product catalog of Aditya Kulkarni",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0B0B0B",
+  "theme_color": "#F4B942",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 
-// Custom inline SVG icons for social platforms
 const Github = ({ className, size = 18 }) => (
   <svg
     viewBox="0 0 24 24"
@@ -48,13 +47,33 @@ const navLinks = [
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     const handleScroll = () => {
+      // 1. Scroll header backdrop trigger
       setIsScrolled(window.scrollY > 20);
+
+      // 2. Active section detection on scroll
+      const sections = ['home', 'projects', 'experience', 'blogs', 'contact'];
+      let currentActive = 'home';
+      
+      for (const sectionId of sections) {
+        const el = document.getElementById(sectionId);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          // If the section top threshold crosses the upper half of screen
+          if (rect.top <= window.innerHeight * 0.45) {
+            currentActive = sectionId;
+          }
+        }
+      }
+      setActiveSection(currentActive);
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // initial trigger
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -67,11 +86,18 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="navbar-menu-desktop" role="navigation" aria-label="Main Navigation">
-          {navLinks.map((link) => (
-            <a key={link.name} href={link.href} className="nav-link">
-              {link.name}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isActive = `#${activeSection}` === link.href;
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`nav-link ${isActive ? 'active' : ''}`}
+              >
+                {link.name}
+              </a>
+            );
+          })}
           <a
             href="https://portfolio-2xcz.onrender.com/api/resume/current/"
             target="_blank"
@@ -114,16 +140,19 @@ const Navbar = () => {
             className="navbar-mobile-menu glass-panel"
           >
             <div className="mobile-menu-container">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="mobile-nav-link"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  {link.name}
-                </a>
-              ))}
+              {navLinks.map((link) => {
+                const isActive = `#${activeSection}` === link.href;
+                return (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className={`mobile-nav-link ${isActive ? 'active' : ''}`}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.name}
+                  </a>
+                );
+              })}
               <a
                 href="https://portfolio-2xcz.onrender.com/api/resume/current/"
                 target="_blank"
