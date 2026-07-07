@@ -4,11 +4,11 @@ const normalizeProject = (project) => ({
   id: project.id,
   title: project.title || '',
   description: project.description || '',
-  technologies: project.technologies ?? project.tech_stack ?? '',
+  technologies: project.tech_stack || project.technologies || '',
   github_url: project.github_url || '',
   live_url: project.live_url || '',
   featured: Boolean(project.featured),
-  image_url: project.image_url ?? project.cover_image ?? '',
+  image_url: project.cover_image || project.image_url || '',
 })
 
 const normalizeList = (data) => {
@@ -16,27 +16,20 @@ const normalizeList = (data) => {
   return projects.map(normalizeProject)
 }
 
-const toProjectPayload = (project) => ({
-  title: project.title,
-  description: project.description,
-  technologies: project.technologies,
-  github_url: project.github_url,
-  live_url: project.live_url,
-  featured: Boolean(project.featured),
-  image_url: project.image_url,
-})
+const toProjectFormData = (project) => {
+  const formData = new FormData()
+  formData.append('title', project.title || '')
+  formData.append('description', project.description || '')
+  formData.append('tech_stack', project.technologies || '')
+  formData.append('github_url', project.github_url || '')
+  formData.append('live_url', project.live_url || '')
+  formData.append('featured', project.featured ? 'true' : 'false')
 
-const toFallbackProjectPayload = (project) => ({
-  title: project.title,
-  description: project.description,
-  tech_stack: project.technologies,
-  github_url: project.github_url,
-  live_url: project.live_url,
-  featured: Boolean(project.featured),
-  cover_image: project.image_url,
-})
-
-const shouldRetryWithFallback = (error) => error.response?.status === 400
+  if (project.cover_image_file) {
+    formData.append('cover_image', project.cover_image_file)
+  }
+  return formData
+}
 
 export const projectService = {
   async getProjects() {
@@ -48,33 +41,28 @@ export const projectService = {
     return normalizeProject(response.data)
   },
   async createProject(project) {
-    try {
-      const response = await api.post('/projects/', toProjectPayload(project))
-      return normalizeProject(response.data)
-    } catch (error) {
-      if (!shouldRetryWithFallback(error)) {
-        throw error
-      }
-
-      const response = await api.post('/projects/', toFallbackProjectPayload(project))
-      return normalizeProject(response.data)
-    }
+    const formData = toProjectFormData(project)
+    const response = await api.post('/projects/', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return normalizeProject(response.data)
   },
   async updateProject(id, project) {
-    try {
-      const response = await api.put(`/projects/${id}/`, toProjectPayload(project))
-      return normalizeProject(response.data)
-    } catch (error) {
-      if (!shouldRetryWithFallback(error)) {
-        throw error
-      }
-
-      const response = await api.put(
-        `/projects/${id}/`,
-        toFallbackProjectPayload(project),
-      )
-      return normalizeProject(response.data)
+    const formData = toProjectFormData(project)
+    // If no new cover image file was selected, delete the empty cover_image key from the FormData
+    // and use PATCH for partial updates, preserving the existing cover image on the backend.
+    if (!project.cover_image_file) {
+      formData.delete('cover_image')
     }
+
+    const response = await api.patch(`/projects/${id}/`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return normalizeProject(response.data)
   },
   async deleteProject(id) {
     await api.delete(`/projects/${id}/`)

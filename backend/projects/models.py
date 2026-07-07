@@ -15,7 +15,7 @@ class Project(models.Model):
     tech_stack = models.CharField(max_length=500)
     github_url = models.URLField(blank=True, null=True)
     live_url = models.URLField(blank=True, null=True)
-    cover_image = models.URLField()
+    cover_image = models.ImageField(upload_to="projects/")
     featured = models.BooleanField(default=False)
     status = models.CharField(
         max_length=20,

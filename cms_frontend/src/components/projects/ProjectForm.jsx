@@ -31,7 +31,12 @@ function ProjectForm({
   errorMessage = '',
   onSubmit,
 }) {
-  const [formData, setFormData] = useState({ ...emptyProject, ...initialValues })
+  const [formData, setFormData] = useState({
+    ...emptyProject,
+    ...initialValues,
+    cover_image_file: null,
+    cover_image_preview: '',
+  })
   const [errors, setErrors] = useState({})
 
   const validate = () => {
@@ -57,16 +62,23 @@ function ProjectForm({
       nextErrors.live_url = 'Enter a valid URL.'
     }
 
-    if (!isValidUrl(formData.image_url)) {
-      nextErrors.image_url = 'Enter a valid URL.'
-    }
-
-    if (!formData.image_url.trim()) {
-      nextErrors.image_url = 'Image URL is required.'
+    // Require file only on new creations. For updates, we can keep the existing image_url.
+    if (!initialValues.image_url && !formData.cover_image_file) {
+      nextErrors.cover_image_file = 'Image file is required.'
     }
 
     setErrors(nextErrors)
     return Object.keys(nextErrors).length === 0
+  }
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0]
+    setFormData((current) => ({
+      ...current,
+      cover_image_file: file,
+      cover_image_preview: file ? URL.createObjectURL(file) : '',
+    }))
+    setErrors((current) => ({ ...current, cover_image_file: '' }))
   }
 
   const handleChange = (event) => {
@@ -147,15 +159,25 @@ function ProjectForm({
           />
         </Field>
 
-        <Field label="Image URL" name="image_url" error={errors.image_url}>
+        <Field label="Cover Image" name="cover_image_file" error={errors.cover_image_file}>
           <input
-            id="image_url"
-            name="image_url"
-            type="url"
-            value={formData.image_url}
-            onChange={handleChange}
+            id="cover_image_file"
+            name="cover_image_file"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
             className="mt-2 w-full rounded-md border border-slate-300 px-3 py-2 outline-none focus:border-slate-900 focus:ring-2 focus:ring-slate-200"
           />
+          {(formData.cover_image_preview || formData.image_url) && (
+            <div className="mt-3">
+              <p className="text-xs text-slate-500 mb-1">Image Preview:</p>
+              <img
+                src={formData.cover_image_preview || formData.image_url}
+                alt="Preview"
+                className="h-32 w-48 rounded object-cover border border-slate-200"
+              />
+            </div>
+          )}
         </Field>
 
         <div className="flex items-end">
