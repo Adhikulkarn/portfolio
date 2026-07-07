@@ -6,7 +6,6 @@ export const resumeService = {
       const response = await api.get('resume/current/');
       return response.data;
     } catch (error) {
-      console.error('Failed to fetch current resume:', error);
       throw error;
     }
   },

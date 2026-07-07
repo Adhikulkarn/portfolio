@@ -41,6 +41,7 @@ const navLinks = [
   { name: 'Projects', href: '#projects' },
   { name: 'Experience', href: '#experience' },
   { name: 'Blogs', href: '#blogs' },
+  { name: 'Skills', href: '#skills' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -55,7 +56,7 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 20);
 
       // 2. Active section detection on scroll
-      const sections = ['home', 'projects', 'experience', 'blogs', 'contact'];
+      const sections = ['home', 'projects', 'experience', 'blogs', 'skills', 'contact'];
       let currentActive = 'home';
       
       for (const sectionId of sections) {

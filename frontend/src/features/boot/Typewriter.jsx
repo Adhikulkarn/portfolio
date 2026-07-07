@@ -15,8 +15,7 @@ const Typewriter = ({ text, speed = 40, onComplete }) => {
         setDisplayedText((prev) => prev + text[index]);
         index++;
         
-        // Human-like speed variation: base speed + random variance
-        const variance = Math.random() * 30 - 15; // -15ms to +15ms
+        const variance = Math.random() * 30 - 15;
         const delay = Math.max(10, speed + variance);
         timer = setTimeout(typeChar, delay);
       } else {

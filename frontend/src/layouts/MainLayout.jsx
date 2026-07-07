@@ -4,6 +4,7 @@ import ScrollProgress from '../components/ui/ScrollProgress';
 import ScrollToTop from '../components/ui/ScrollToTop';
 import ScrollRestoration from '../components/ui/ScrollRestoration';
 import OfflineBanner from '../components/ui/OfflineBanner';
+import TuxCompanion from '../features/tux/TuxCompanion';
 
 const MainLayout = ({ children }) => {
   return (
@@ -27,6 +28,9 @@ const MainLayout = ({ children }) => {
       
       {/* Scroll to Top floating action */}
       <ScrollToTop />
+
+      {/* Persistent TUX scroll companion */}
+      <TuxCompanion />
     </>
   );
 };

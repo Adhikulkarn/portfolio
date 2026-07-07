@@ -2,7 +2,7 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import MainLayout from './layouts/MainLayout';
-import BootLoader from './features/boot-loader/BootLoader';
+import BootLoader from './features/boot/BootLoader';
 
 // Lazy load page components for route-based code splitting and fast first-contentful paint (FCP)
 const Home = lazy(() => import('./pages/Home'));

@@ -2192,3 +2192,181 @@ a {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
 }
+
+/* ========================================== */
+/* CINEMATIC BOOT SCREEN LAYOUT               */
+/* ========================================== */
+.boot-sequence-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #07080B;
+  /* Premium radial vignette background */
+  background: radial-gradient(circle at center, #0F1116 0%, #07080B 100%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+/* Subtle noise overlay wrapper */
+.boot-sequence-overlay::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.012; /* extremely low opacity */
+  background-image: radial-gradient(rgba(255,255,255,0.15) 1px, transparent 0),
+                    radial-gradient(rgba(255,255,255,0.15) 1px, transparent 0);
+  background-size: 8px 8px;
+  background-position: 0 0, 4px 4px;
+  pointer-events: none;
+}
+
+.boot-screen-container {
+  display: flex;
+  flex-direction: column-reverse; /* Terminal on top, TUX bottom in stacked grids */
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.boot-screen-left {
+  width: 100%;
+  max-width: 580px;
+}
+
+.boot-screen-right {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Mascot sizing across breakpoints */
+.tux-mascot-wrapper {
+  width: 90px;
+  height: 90px;
+}
+
+/* Desktop layout: Side-by-side (70% Terminal, 30% TUX) */
+@media (min-width: 1024px) {
+  .boot-screen-container {
+    flex-direction: row;
+    align-items: center;
+    gap: 4.5rem;
+  }
+  
+  .boot-screen-left {
+    width: 68%;
+    max-width: 620px;
+  }
+  
+  .boot-screen-right {
+    width: 32%;
+    max-width: 280px;
+  }
+  
+  .tux-mascot-wrapper {
+    width: 160px;
+    height: 160px;
+  }
+}
+
+/* Tablet layout stacked */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .boot-screen-container {
+    flex-direction: column-reverse;
+    gap: 3rem;
+  }
+  
+  .tux-mascot-wrapper {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+/* Persistent TUX Companion Responsive Sizes */
+:root {
+  --tux-size: 55px;
+}
+@media (min-width: 768px) {
+  :root {
+    --tux-size: 75px;
+  }
+}
+@media (min-width: 1024px) {
+  :root {
+    --tux-size: 100px;
+  }
+}
+
+/* Glassmorphism Speech Bubble for TUX companion */
+.tux-speech-bubble {
+  position: absolute;
+  bottom: 2.25rem;
+  right: calc(var(--tux-size) + 1.25rem);
+  background: rgba(13, 14, 17, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  color: #E4E4E4;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  width: 240px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+  z-index: 10000;
+  pointer-events: none;
+  font-family: var(--font-body);
+}
+
+.tux-speech-bubble::after {
+  content: '';
+  position: absolute;
+  right: -8px;
+  bottom: 20px;
+  width: 0;
+  height: 0;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 8px solid rgba(13, 14, 17, 0.85);
+}
+
+@media (max-width: 767px) {
+  .tux-speech-bubble {
+    width: 195px;
+    font-size: 0.76rem;
+    padding: 0.65rem 0.85rem;
+    bottom: 1.5rem;
+    right: calc(var(--tux-size) + 1rem);
+  }
+  .tux-speech-bubble::after {
+    bottom: 14px;
+    border-top-width: 6px;
+    border-bottom-width: 6px;
+    border-left-width: 6px;
+    right: -6px;
+  }
+}
+
+/* Ok Tux speech bubble button styles */
+.tux-bubble-btn:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  transform: translateY(-1px);
+}
+
+.tux-bubble-btn:active {
+  transform: translateY(0);
+}
