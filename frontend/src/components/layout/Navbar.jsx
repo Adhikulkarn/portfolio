@@ -100,7 +100,7 @@ const Navbar = () => {
             );
           })}
           <a
-            href="https://portfolio-2xcz.onrender.com/api/resume/current/"
+            href="https://portfolio-2xcz.onrender.com/api/resume/current/?redirect=true"
             target="_blank"
             rel="noopener noreferrer"
             className="nav-link resume-link"
@@ -155,7 +155,7 @@ const Navbar = () => {
                 );
               })}
               <a
-                href="https://portfolio-2xcz.onrender.com/api/resume/current/"
+                href="https://portfolio-2xcz.onrender.com/api/resume/current/?redirect=true"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mobile-nav-link mobile-resume-link"

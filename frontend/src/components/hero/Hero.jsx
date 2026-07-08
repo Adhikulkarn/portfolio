@@ -84,8 +84,9 @@ const Hero = () => {
               </Button>
               <Button
                 variant="secondary"
-                href="https://portfolio-2xcz.onrender.com/api/resume/current/"
-                download
+                href="https://portfolio-2xcz.onrender.com/api/resume/current/?redirect=true"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 Download Resume
               </Button>

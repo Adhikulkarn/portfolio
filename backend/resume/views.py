@@ -23,5 +23,11 @@ class ResumeViewSet(viewsets.ModelViewSet):
         resume = Resume.objects.filter(active=True).first()
         if not resume:
             return Response({"detail": "No active resume found."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Redirect directly if navigated to in browser or explicit redirect parameter is passed
+        if request.GET.get("redirect") == "true" or "text/html" in request.headers.get("Accept", ""):
+            from django.shortcuts import redirect
+            return redirect(resume.resume_url)
+
         serializer = self.get_serializer(resume)
         return Response(serializer.data)
