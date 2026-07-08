@@ -37,42 +37,19 @@ const BootTerminal = ({
       initial="initial"
       animate="animate"
       exit="exit"
-      className="terminal-window boot-terminal-window hide-scrollbar"
-      style={{
-        width: '100%',
-        background: '#0D0E11',
-        border: '1px solid rgba(255, 255, 255, 0.06)',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.65)',
-        borderRadius: '10px',
-        overflow: 'hidden'
-      }}
+      className="boot-terminal-window"
       role="dialog"
       aria-label="Developer Environment Boot Console"
       aria-live="polite"
     >
       {/* Terminal Title Bar */}
-      <div 
-        className="terminal-header" 
-        style={{ 
-          background: '#16171D', 
-          borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
-          padding: '0.6rem 1rem' 
-        }}
-      >
+      <div className="boot-terminal-header">
         <div className="terminal-dots">
           <span className="terminal-dot dot-red" style={{ background: '#FF5F56' }} />
           <span className="terminal-dot dot-yellow" style={{ background: '#FBBF24' }} />
           <span className="terminal-dot dot-green" style={{ background: '#22C55E' }} />
         </div>
-        <div 
-          className="terminal-title" 
-          style={{ 
-            fontFamily: 'var(--font-body)', 
-            color: '#8E9AA8', 
-            fontWeight: 500,
-            fontSize: '0.72rem' 
-          }}
-        >
+        <div className="terminal-title" style={{ textTransform: 'none' }}>
           Developer Environment
         </div>
         <div style={{ width: '40px' }} />
@@ -81,18 +58,7 @@ const BootTerminal = ({
       {/* Terminal Screen Body */}
       <div
         ref={scrollRef}
-        className="terminal-body small-terminal hide-scrollbar"
-        style={{
-          height: '320px',
-          overflowY: 'scroll',
-          padding: '1.5rem',
-          fontFamily: "'Fira Code', 'JetBrains Mono', 'Courier New', Courier, monospace",
-          fontSize: '0.85rem',
-          lineHeight: '1.65',
-          color: '#D4D4D4',
-          scrollbarWidth: 'none',
-          msOverflowStyle: 'none'
-        }}
+        className="boot-terminal-body hide-scrollbar"
       >
         {/* Command line prompt */}
         <div className="terminal-prompt-line">

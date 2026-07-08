@@ -2395,7 +2395,7 @@ a {
   flex-direction: column-reverse; /* Terminal on top, TUX bottom in stacked grids */
   align-items: center;
   justify-content: center;
-  gap: 2.5rem;
+  gap: 1.25rem; /* Reduced gap on mobile to optimize whitespace spacing */
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
@@ -2441,6 +2441,59 @@ a {
   .tux-mascot-wrapper {
     width: 160px;
     height: 160px;
+  }
+}
+
+/* Boot Terminal Responsive Styles */
+.boot-terminal-window {
+  width: 100%;
+  background: #0D0E11;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.boot-terminal-header {
+  background: #16171D; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 0.6rem 1rem; 
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.boot-terminal-body {
+  height: 240px; /* Compact height on small mobile screen */
+  overflow-y: scroll;
+  padding: 1rem; /* Reduced padding on mobile */
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', Courier, monospace;
+  font-size: 0.72rem; /* Compact mobile typography */
+  line-height: 1.5;
+  color: #D4D4D4;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  word-break: break-all; /* Break long terminal commands to prevent horizontal scroll overflow */
+}
+
+.boot-terminal-body::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 360px) {
+  .boot-terminal-body {
+    height: 270px;
+    font-size: 0.75rem;
+  }
+}
+
+@media (min-width: 480px) {
+  .boot-terminal-body {
+    height: 320px;
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.65;
+    word-break: normal;
   }
 }
 

@@ -17,6 +17,13 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
         return [IsAdminUser()]
 
     def perform_create(self, serializer):
+        pass
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        
+        # Save to database
         instance = serializer.save()
 
         # Build email notification template
@@ -32,20 +39,33 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
         from django.conf import settings
         from django.core.mail import send_mail
 
+        email_sent = False
         try:
-            send_mail(
+            # Set fail_silently=False to surface SMTP/configuration failures
+            sent_count = send_mail(
                 subject=subject,
                 message=body,
                 from_email=settings.DEFAULT_FROM_EMAIL or "portfolio@aditya.com",
                 recipient_list=["adityask200615@gmail.com"],
-                fail_silently=True,
+                fail_silently=False,
             )
+            if sent_count > 0:
+                email_sent = True
         except Exception as e:
             print("Failed to send email notification:", str(e))
+            # Delete DB entry to prevent orphaned success entries in database
+            instance.delete()
+            return Response(
+                {"error": "Failed to send email: " + str(e)},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
-    def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
+        if not email_sent:
+            instance.delete()
+            return Response(
+                {"error": "Failed to send email: SMTP server reported zero messages sent."},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

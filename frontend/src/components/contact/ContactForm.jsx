@@ -8,6 +8,7 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState('idle'); // 'idle' | 'sending' | 'success' | 'error'
+  const [errorMessage, setErrorMessage] = useState('');
   const [apiPromise, setApiPromise] = useState(null);
 
   const validate = () => {
@@ -38,6 +39,7 @@ const ContactForm = () => {
     if (!validate()) return;
 
     setStatus('sending');
+    setErrorMessage('');
 
     // Trigger api post and capture as promise
     const promise = contactService.submitContactForm(formData)
@@ -48,6 +50,10 @@ const ContactForm = () => {
       .catch((err) => {
         console.error('Contact form submission error:', err);
         setStatus('error');
+        // Extract server-side SMTP details or connection timeouts
+        const serverError = err.response?.data?.error || err.response?.data?.detail || err.message;
+        const msg = serverError || 'Unable to send message. Please verify your SMTP settings or network connection and try again.';
+        setErrorMessage(msg);
         throw err;
       });
 
@@ -68,7 +74,7 @@ const ContactForm = () => {
     <form onSubmit={handleSubmit} className="contact-form glass-panel" noValidate>
       {status === 'error' && (
         <div className="contact-form-error-banner" role="alert">
-          Unable to send message. Please verify your connection and try again.
+          {errorMessage}
         </div>
       )}
 

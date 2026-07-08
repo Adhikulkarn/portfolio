@@ -7,17 +7,10 @@ import TechPills from './TechPills';
 
 const ProjectShowcase = ({ project, index }) => {
   const isImageLeft = index % 2 === 0;
-  const isExternal = !!project.live_url;
-  const ImageLinkComponent = isExternal ? 'a' : Link;
-  const imageLinkProps = isExternal 
-    ? {
-        href: project.live_url,
-        target: '_blank',
-        rel: 'noopener noreferrer'
-      }
-    : {
-        to: `/projects/${project.slug}`
-      };
+  const ImageLinkComponent = Link;
+  const imageLinkProps = {
+    to: `/projects/${project.slug}`
+  };
 
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -50,7 +43,7 @@ const ProjectShowcase = ({ project, index }) => {
         <ImageLinkComponent 
           {...imageLinkProps}
           className="project-image-link" 
-          aria-label={`View ${isExternal ? 'live demo' : 'case study'} for ${project.title}`}
+          aria-label={`View project details for ${project.title}`}
         >
           <div className="project-image-wrapper">
             <img
@@ -61,7 +54,7 @@ const ProjectShowcase = ({ project, index }) => {
             />
             <div className="project-image-overlay">
               <span className="view-case-study-label">
-                {isExternal ? 'View Live Demo' : 'View Case Study'}
+                View Project
               </span>
             </div>
           </div>
@@ -80,7 +73,9 @@ const ProjectShowcase = ({ project, index }) => {
           <ProjectMetadata project={project} />
         </div>
 
-        <h3 className="project-showcase-title">{project.title}</h3>
+        <h3 className="project-showcase-title">
+          <Link to={`/projects/${project.slug}`}>{project.title}</Link>
+        </h3>
         
         <p className="project-showcase-description">{project.description}</p>
         
@@ -89,13 +84,12 @@ const ProjectShowcase = ({ project, index }) => {
         </div>
 
         <div className="project-showcase-buttons">
-          {project.live_url ? (
-            <Button variant="primary" href={project.live_url} target="_blank" rel="noopener noreferrer">
+          <Button variant="primary" href={`/projects/${project.slug}`}>
+            View Project
+          </Button>
+          {project.live_url && (
+            <Button variant="outline" href={project.live_url} target="_blank" rel="noopener noreferrer">
               Live Demo
-            </Button>
-          ) : (
-            <Button variant="primary" href={`/projects/${project.slug}`}>
-              View Case Study
             </Button>
           )}
           {project.github_url && (
