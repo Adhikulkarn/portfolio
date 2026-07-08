@@ -34,6 +34,9 @@ const BlogsSection = () => {
 
   return (
     <Section id="blogs" className="blogs-section">
+      <div className="section-bg-text section-bg-text-right" aria-hidden="true">
+        WRITE
+      </div>
       <Container>
         {/* Section Header */}
         <div className="blogs-header">

@@ -41,7 +41,10 @@ const SelectedWorkSection = () => {
 
   return (
     <Section id="projects" className="selected-work-section">
-      <Container>
+      <div className="section-bg-text section-bg-text-right" aria-hidden="true">
+        ENGINEER
+      </div>
+      <Container size="projects">
         {/* Section Header */}
         <div className="selected-work-header">
           <h2 className="editorial-heading">

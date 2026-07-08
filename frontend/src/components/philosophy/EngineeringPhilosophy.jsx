@@ -76,6 +76,9 @@ const EngineeringPhilosophy = () => {
 
   return (
     <Section id="philosophy" className="philosophy-section">
+      <div className="section-bg-text section-bg-text-left" aria-hidden="true">
+        THINK
+      </div>
       <Container>
         {/* Editorial Split Layout for Text Content */}
         <motion.div

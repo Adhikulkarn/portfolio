@@ -40,7 +40,7 @@ const ProjectDetails = () => {
           <div style={{ padding: '4rem 0' }}>
             <div className="skeleton-meta pulse" style={{ width: '120px', height: '14px', marginBottom: '1.5rem' }} />
             <div className="skeleton-title pulse" style={{ width: '60%', height: '48px', marginBottom: '2.5rem' }} />
-            <div className="skeleton-image pulse" style={{ width: '100%', aspectRatio: '16/9', borderRadius: '8px', marginBottom: '4rem' }} />
+            <div className="skeleton-image pulse" style={{ width: '100%', aspectRatio: '16/9', borderRadius: '12px', marginBottom: '4rem' }} />
             <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '3rem' }}>
               <div className="skeleton-description pulse" style={{ width: '100%', height: '180px' }} />
             </div>
@@ -131,7 +131,7 @@ const ProjectDetails = () => {
               </p>
             </div>
 
-            <div className="project-meta-col glass-panel" style={{ padding: '2.5rem', borderRadius: '8px', border: '1px solid var(--color-border)', height: 'fit-content' }}>
+            <div className="project-meta-col glass-panel" style={{ padding: '2.5rem', borderRadius: '12px', border: '1px solid var(--color-border)', height: 'fit-content' }}>
               <h3 className="section-subtitle" style={{ marginBottom: '1.5rem' }}>Project Metadata</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

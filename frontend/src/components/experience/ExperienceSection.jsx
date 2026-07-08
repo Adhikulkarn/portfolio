@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Section from '../ui/Section';
 import Container from '../ui/Container';
 import Button from '../ui/Button';
@@ -86,7 +86,12 @@ const ExperienceTerminalWindow = ({ item }) => {
   const terminalTitle = `spidy: ~/experience/${orgName}`;
 
   return (
-    <div ref={containerRef} className="terminal-window">
+    <motion.div
+      ref={containerRef}
+      whileHover={{ y: -6 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      className="terminal-window"
+    >
       {/* Header Controls */}
       <div className="terminal-header">
         <div className="terminal-dots">
@@ -144,7 +149,7 @@ const ExperienceTerminalWindow = ({ item }) => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -173,6 +178,9 @@ const ExperienceSection = () => {
 
   return (
     <Section id="experience" className="experience-section">
+      <div className="section-bg-text section-bg-text-right" aria-hidden="true">
+        SYSTEMS
+      </div>
       <Container>
         {/* Section Header */}
         <div className="experience-header">

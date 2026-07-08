@@ -20,10 +20,10 @@ const ProjectShowcase = ({ project, index }) => {
       };
 
   const contentVariants = {
-    hidden: { opacity: 0, x: isImageLeft ? 40 : -40 },
+    hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
-      x: 0,
+      y: 0,
       transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
     },
   };

@@ -46,7 +46,7 @@ const Hero = () => {
         SOFTWARE ENGINEER
       </div>
 
-      <Container>
+      <Container size="hero">
         <div className="hero-grid">
           {/* Left Column Content */}
           <motion.div

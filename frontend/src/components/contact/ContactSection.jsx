@@ -14,6 +14,9 @@ const ContactSection = () => {
 
   return (
     <Section id="contact" className="contact-section">
+      <div className="section-bg-text section-bg-text-left" aria-hidden="true">
+        CREATE
+      </div>
       <Container>
         <div className="contact-grid">
           {/* Left Column: Typography, Resume download, and Social handles */}

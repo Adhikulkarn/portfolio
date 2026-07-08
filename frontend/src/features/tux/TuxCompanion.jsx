@@ -309,7 +309,7 @@ const TuxCompanion = () => {
               background: '#0D0E11',
               border: '1px solid rgba(255, 255, 255, 0.08)',
               boxShadow: '0 12px 35px rgba(0, 0, 0, 0.6)',
-              borderRadius: '8px',
+              borderRadius: '12px',
               padding: '0.8rem 1rem',
               width: '210px',
               fontFamily: "monospace",

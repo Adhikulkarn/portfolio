@@ -46,7 +46,7 @@ const BlogDetails = () => {
           <div style={{ padding: '4rem 0', maxWidth: '800px', margin: '0 auto' }}>
             <div className="skeleton-meta pulse" style={{ width: '150px', height: '14px', marginBottom: '1.5rem' }} />
             <div className="skeleton-title pulse" style={{ width: '80%', height: '44px', marginBottom: '2.5rem' }} />
-            <div className="skeleton-image pulse" style={{ width: '100%', aspectRatio: '16/10', borderRadius: '8px', marginBottom: '3rem' }} />
+            <div className="skeleton-image pulse" style={{ width: '100%', aspectRatio: '16/10', borderRadius: '12px', marginBottom: '3rem' }} />
             <div className="skeleton-description pulse" style={{ width: '100%', height: '240px' }} />
           </div>
         </Container>
@@ -117,7 +117,7 @@ const BlogDetails = () => {
 
           {/* Featured Cover Image */}
           {blog.cover_image && (
-            <div className="project-image-link" style={{ cursor: 'default', marginBottom: '3.5rem', borderRadius: '8px' }}>
+            <div className="project-image-link" style={{ cursor: 'default', marginBottom: '3.5rem', borderRadius: '12px' }}>
               <div className="project-image-wrapper">
                 <img
                   src={blog.cover_image}

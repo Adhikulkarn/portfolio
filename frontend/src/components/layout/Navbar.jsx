@@ -39,9 +39,9 @@ const Linkedin = ({ className, size = 18 }) => (
 const navLinks = [
   { name: 'Home', href: '#home' },
   { name: 'Projects', href: '#projects' },
+  { name: 'Skills', href: '#skills' },
   { name: 'Experience', href: '#experience' },
   { name: 'Blogs', href: '#blogs' },
-  { name: 'Skills', href: '#skills' },
   { name: 'Contact', href: '#contact' },
 ];
 
@@ -56,7 +56,7 @@ const Navbar = () => {
       setIsScrolled(window.scrollY > 20);
 
       // 2. Active section detection on scroll
-      const sections = ['home', 'projects', 'experience', 'blogs', 'skills', 'contact'];
+      const sections = ['home', 'projects', 'skills', 'experience', 'blogs', 'contact'];
       let currentActive = 'home';
       
       for (const sectionId of sections) {

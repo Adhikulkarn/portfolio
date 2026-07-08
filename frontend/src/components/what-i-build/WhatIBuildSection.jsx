@@ -87,6 +87,9 @@ const WhatIBuildSection = () => {
 
   return (
     <Section id="what-i-build" className="what-i-build-section">
+      <div className="section-bg-text section-bg-text-left" aria-hidden="true">
+        BUILD
+      </div>
       <Container>
         <motion.div
           initial="hidden"

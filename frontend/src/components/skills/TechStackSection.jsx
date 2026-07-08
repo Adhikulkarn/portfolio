@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useInView } from 'framer-motion';
+import { motion, useInView } from 'framer-motion';
 import Section from '../ui/Section';
 import Container from '../ui/Container';
 import Button from '../ui/Button';
@@ -114,7 +114,12 @@ const TerminalWindow = ({ title, command, skills, color }) => {
   }, [isInView, skills, command]);
 
   return (
-    <div ref={containerRef} className="terminal-window">
+    <motion.div
+      ref={containerRef}
+      whileHover={{ y: -6 }}
+      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+      className="terminal-window"
+    >
       {/* Header bar controls */}
       <div className="terminal-header">
         <div className="terminal-dots">
@@ -163,7 +168,7 @@ const TerminalWindow = ({ title, command, skills, color }) => {
           </div>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
